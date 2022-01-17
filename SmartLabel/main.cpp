@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 
     try {
         //MainWindow w;
-        FirstPageDialog w;
+        taskDialog w;
        //w.setWindowState(Qt::Win);
        Qt::WindowFlags flags = Qt::Window;
        //flags |= Qt::WindowMinimizeButtonHint;

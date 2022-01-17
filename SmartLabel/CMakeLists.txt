@@ -40,7 +40,8 @@ set(PROJECT_SOURCES
     configannodialog.cpp
     taskdialog.cpp
     add_attribute_dialog.cpp
-    firstpagedialog.cpp)
+    firstpagedialog.cpp
+    point_dialog.cpp)
 
 
 set(PROJECT_HEADERS
@@ -75,6 +76,9 @@ set(PROJECT_HEADERS
     taskdialog.ui
     add_attribute_dialog.h
     attribute_dialog.ui
+    wegits_common.h
+    point_dialog.h
+    point_dialog.ui
     resource.qrc
     )
 

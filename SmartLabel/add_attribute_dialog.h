@@ -27,6 +27,8 @@ private slots:
 
     void on_cancel_Button_clicked();
 
+    void on_attri_type_activated(int index);
+
 private:
     Ui::AddAttributeDialog *ui;
     std::unique_ptr<QJsonObject> json_object;

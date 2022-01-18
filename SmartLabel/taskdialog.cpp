@@ -47,7 +47,7 @@ void taskDialog::receive_attribute_data(QJsonObject* json_object)
         QMessageBox::warning(this, "warning", "the current attr has beed added! please add it again!");
         return;
     }
-    task_desc.label_attri_map_
+    //task_desc.label_attri_map_
     attr_set->insert(sub_task, QJsonValue("sub_attr"));
     s_s += json_object->value("sub_task").toString();
     s_s +="](default_value: ";

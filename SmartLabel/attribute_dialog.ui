@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>458</width>
-    <height>293</height>
+    <width>453</width>
+    <height>257</height>
    </rect>
   </property>
   <property name="font">
@@ -36,36 +36,23 @@
     <string>属性:</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
-     <x>50</x>
-     <y>110</y>
-     <width>53</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>14</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>类型:</string>
-   </property>
-  </widget>
   <widget class="QComboBox" name="attri_type">
    <property name="geometry">
     <rect>
-     <x>100</x>
-     <y>110</y>
-     <width>281</width>
+     <x>300</x>
+     <y>60</y>
+     <width>111</width>
      <height>31</height>
     </rect>
    </property>
    <item>
     <property name="text">
-     <string>string</string>
+     <string>全部label</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>部分label</string>
     </property>
    </item>
   </widget>
@@ -73,8 +60,8 @@
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>160</y>
-     <width>71</width>
+     <y>100</y>
+     <width>201</width>
      <height>31</height>
     </rect>
    </property>
@@ -84,7 +71,7 @@
     </font>
    </property>
    <property name="text">
-    <string>默认值:</string>
+    <string>对应标签label(以;隔开):</string>
    </property>
   </widget>
   <widget class="QLabel" name="title_label">
@@ -115,8 +102,8 @@
   <widget class="QPushButton" name="confirm_Button">
    <property name="geometry">
     <rect>
-     <x>70</x>
-     <y>230</y>
+     <x>100</x>
+     <y>200</y>
      <width>75</width>
      <height>31</height>
     </rect>
@@ -131,8 +118,8 @@
   <widget class="QPushButton" name="cancel_Button">
    <property name="geometry">
     <rect>
-     <x>250</x>
-     <y>230</y>
+     <x>300</x>
+     <y>200</y>
      <width>75</width>
      <height>31</height>
     </rect>
@@ -144,33 +131,12 @@
     <bool>false</bool>
    </property>
   </widget>
-  <widget class="QRadioButton" name="optional_Button">
-   <property name="geometry">
-    <rect>
-     <x>300</x>
-     <y>60</y>
-     <width>121</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>14</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>optional</string>
-   </property>
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-  </widget>
   <widget class="QTextEdit" name="attribute_text">
    <property name="geometry">
     <rect>
      <x>100</x>
      <y>60</y>
-     <width>191</width>
+     <width>121</width>
      <height>31</height>
     </rect>
    </property>
@@ -190,9 +156,9 @@
   <widget class="QTextEdit" name="attribute_default_value">
    <property name="geometry">
     <rect>
-     <x>120</x>
-     <y>160</y>
-     <width>261</width>
+     <x>50</x>
+     <y>140</y>
+     <width>361</width>
      <height>31</height>
     </rect>
    </property>
@@ -207,6 +173,24 @@
    </property>
    <property name="horizontalScrollBarPolicy">
     <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>60</y>
+     <width>51</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>类型</string>
    </property>
   </widget>
  </widget>

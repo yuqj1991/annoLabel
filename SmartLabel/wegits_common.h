@@ -15,7 +15,6 @@ enum class AnnoType {
 
 struct attribute_desc_ {
     QString attri_name;
-    bool optional;
     QString default_value;
 };
 

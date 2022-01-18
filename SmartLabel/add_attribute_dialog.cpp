@@ -9,6 +9,7 @@ AddAttributeDialog::AddAttributeDialog(QWidget *parent) :
      json_object = std::make_unique<QJsonObject>();
     ui->setupUi(this);
    // json_object = std::make_unique<QJsonObject>();
+    ui->attribute_default_value->setReadOnly(true);
 }
 
 AddAttributeDialog::~AddAttributeDialog()
@@ -23,19 +24,12 @@ void AddAttributeDialog::on_confirm_Button_clicked()
         QMessageBox::warning(this, "Warning",  "请添加任务子属性");
         return;
     }
-    bool attri_optional = ui->optional_Button->isChecked();
 
-    if (!attri_optional) {
-        auto result = QMessageBox::question(this, "info",  "请确认此属性不是必须标注?");
-        if (result == QMessageBox::No) {
-            return;
-        }
-    }
 
     QString default_value = ui->attribute_default_value->toPlainText();
      json_object->insert("sub_task", QJsonValue(attribute_by_task));
     json_object->insert("default_value", QJsonValue(default_value));
-    json_object->insert("optional", QJsonValue(attri_optional));
+   // json_object->insert("optional", QJsonValue(attri_optional));
     this->close();
     emit SendData(json_object.get());
 
@@ -45,5 +39,13 @@ void AddAttributeDialog::on_confirm_Button_clicked()
 void AddAttributeDialog::on_cancel_Button_clicked()
 {
     this->close();
+}
+
+
+void AddAttributeDialog::on_attri_type_activated(int index)
+{
+    if (ui->attri_type->currentText() == "部分label") {
+        ui->attribute_default_value->setReadOnly(false);
+    }
 }
 

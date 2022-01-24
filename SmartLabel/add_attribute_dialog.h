@@ -29,9 +29,14 @@ private slots:
 
     void on_attri_type_activated(int index);
 
+    void recievd_labels_data(QStringList& data);
+
 private:
     Ui::AddAttributeDialog *ui;
     std::unique_ptr<QJsonObject> json_object;
+    QStringList get_labels(const QString &labels);
+
+    QStringList task_labels_;
 };
 
 #endif // ADD_ATTRIBUTE_DIALOG_H

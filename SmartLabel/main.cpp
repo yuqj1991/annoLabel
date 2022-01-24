@@ -1,8 +1,6 @@
 #include "mainwindow.h"
 #include "login.h"
-#include "custumtaskdialog.h"
 #include "firstpagedialog.h"
-#include "taskdialog.h"
 #include <QApplication>
 #include <ctime>
 #include <QMessageBox>
@@ -17,21 +15,18 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     // 使用qss美化ui界面，但是与部分部件兼容不佳
-//    QFile f(":qdarkstyle/style.qss");
-//    if (!f.exists())
-//    {
-//        printf("Unable to set stylesheet, file not found\n");
-//    }
-//    else
-//    {
-//        f.open(QFile::ReadOnly | QFile::Text);
-//        QTextStream ts(&f);
-//        qApp->setStyleSheet(ts.readAll());
-//    }
+    QFile f(":qdarkstyle/style.qss");
+   if (!f.exists()) {
+        printf("Unable to set stylesheet, file not found\n");
+    }  else   {
+        f.open(QFile::ReadOnly | QFile::Text);
+       QTextStream ts(&f);
+       qApp->setStyleSheet(ts.readAll());
+  }
 
     try {
         //MainWindow w;
-        taskDialog w;
+        FirstPageDialog w;
        //w.setWindowState(Qt::Win);
        Qt::WindowFlags flags = Qt::Window;
        //flags |= Qt::WindowMinimizeButtonHint;

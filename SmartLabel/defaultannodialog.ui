@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>622</width>
-    <height>435</height>
+    <width>641</width>
+    <height>506</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,8 +17,8 @@
    <property name="geometry">
     <rect>
      <x>80</x>
-     <y>110</y>
-     <width>71</width>
+     <y>210</y>
+     <width>81</width>
      <height>31</height>
     </rect>
    </property>
@@ -43,39 +43,45 @@
    <property name="geometry">
     <rect>
      <x>80</x>
-     <y>270</y>
-     <width>111</width>
+     <y>370</y>
+     <width>131</width>
      <height>31</height>
     </rect>
    </property>
    <property name="text">
-    <string>label(逗号分隔):</string>
+    <string>label(逗号;分隔):</string>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_4">
+  <widget class="QTextEdit" name="labels_textEdit">
    <property name="geometry">
     <rect>
      <x>80</x>
-     <y>310</y>
+     <y>410</y>
      <width>461</width>
      <height>31</height>
     </rect>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="open_dir_Button">
    <property name="geometry">
     <rect>
      <x>460</x>
-     <y>150</y>
-     <width>75</width>
+     <y>250</y>
+     <width>81</width>
      <height>31</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>9</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>打开文件夹</string>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit">
+  <widget class="QTextEdit" name="project_textEdit">
    <property name="geometry">
     <rect>
      <x>80</x>
@@ -89,8 +95,8 @@
    <property name="geometry">
     <rect>
      <x>80</x>
-     <y>190</y>
-     <width>111</width>
+     <y>290</y>
+     <width>131</width>
      <height>31</height>
     </rect>
    </property>
@@ -98,24 +104,82 @@
     <string>标注文件保存地址：</string>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_2">
+  <widget class="QTextEdit" name="fileDir_textEdit">
    <property name="geometry">
     <rect>
      <x>80</x>
-     <y>150</y>
+     <y>250</y>
      <width>381</width>
      <height>31</height>
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_3">
+  <widget class="QTextEdit" name="save_anno_textEdit">
    <property name="geometry">
     <rect>
      <x>80</x>
-     <y>230</y>
+     <y>330</y>
      <width>461</width>
      <height>31</height>
     </rect>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="annoType_comboBox">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>150</y>
+     <width>181</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+   <item>
+    <property name="text">
+     <string>分类_classifiy</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>点_points</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>矩形框_rect</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>分割_segement</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>3D_目标检测</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>150</y>
+     <width>101</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>标注类型:</string>
    </property>
   </widget>
  </widget>

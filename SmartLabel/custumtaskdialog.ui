@@ -28,7 +28,7 @@
    <property name="alignment">
     <set>Qt::AlignCenter</set>
    </property>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="default_anno_Button">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -41,7 +41,7 @@
      <string>默认标注任务</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="custum_anno_Button">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -73,13 +73,13 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QStackedWidget" name="stackedWidget">
+   <widget class="QStackedWidget" name="anno_stackedWidget">
     <property name="geometry">
      <rect>
       <x>160</x>
-      <y>60</y>
+      <y>30</y>
       <width>641</width>
-      <height>581</height>
+      <height>611</height>
      </rect>
     </property>
     <property name="currentIndex">
@@ -87,6 +87,19 @@
     </property>
     <widget class="QWidget" name="page_3"/>
     <widget class="QWidget" name="page_4"/>
+   </widget>
+   <widget class="QPushButton" name="return_Button">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>560</y>
+      <width>101</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>返回</string>
+    </property>
    </widget>
   </widget>
  </widget>

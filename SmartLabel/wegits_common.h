@@ -4,14 +4,30 @@
 #include <vector>
 #include <map>
 #include <QString>
+#include <QObject>
 #include <QStringList>
+#include <QJsonValue>
 
 namespace AnnoTool {
-enum class AnnoType {
-    Points,
-    Rectangle,
-    Segement
+
+class WidgtsException : public std::exception {
+public:
+  WidgtsException(std::string message) : message(message){};
+  // 返回 message
+  const char *what() const noexcept { return message.c_str(); };
+
+private:
+  // 用于存储异常的提示信息
+  std::string message;
 };
+
+enum class AnnoType { Points,
+                      Rectangle,
+                      Segement,
+                      Detection_3D,
+                      Classifiy
+};
+
 
 struct attribute_desc_ {
     QString attri_name;
@@ -30,8 +46,44 @@ struct anno_desc_ {
     std::vector<task_desc_> anno_desc_list_;
 };
 
+class WidgetUtils : public QObject {
+    Q_OBJECT
+public:
+   static  AnnoType getAnnoType(const QString &name) {
+      if (name == "点_points") {
+        return AnnoType::Points;
+      } else if (name == "分类_classifiy") {
+        return AnnoType::Classifiy;
+      } else if (name == "矩形框_rect") {
+        return AnnoType::Rectangle;
+      } else if (name == "分割_segement") {
+        return AnnoType::Segement;
+      } else if (name == "3D_目标检测") {
+        return AnnoType::Detection_3D;
+      } else {
+        throw WidgtsException(
+            std::string("do not support anno_type: " + name.toStdString()));
+      }
+    }
 
+    static QString ConvertJsonValue(const AnnoType &name) {
+      if (name == AnnoType::Points) {
+        return "点_points";
+      } else if (name == AnnoType::Classifiy) {
+        return "分类_classifiy";
+      } else if (name == AnnoType::Rectangle) {
+        return "矩形框_rect";
+      } else if (name == AnnoType::Segement) {
+        return "分割_segement";
+      } else if (name == AnnoType::Detection_3D) {
+        return "3D_目标检测";
+      } else {
+        throw WidgtsException(
+            std::string("do not support anno_type"));
+      }
+    }
 
+};
 }
 
 

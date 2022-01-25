@@ -26,7 +26,7 @@ private slots:
 
     void on_return_Button_clicked();
 
-    void receive_task_data();
+    //void receive_task_data();
 
 private:
     Ui::CustumTaskDialog *ui;

@@ -5,6 +5,7 @@
 #include <QFileDialog>
 #include <QJsonObject>
 #include <memory>
+#include <point_dialog.h>
 namespace Ui {
 class DefaultAnnoDialog;
 }
@@ -25,9 +26,13 @@ public:
 
     void on_open_anno_Button_clicked();
 
+    void on_annoType_comboBox_activated(int index);
+    void reveive_points_data(int& point_num);
+
 private:
     Ui::DefaultAnnoDialog *ui;
     std::unique_ptr<QFileDialog> fileDialog;
+    std::unique_ptr<PointDialog> points_dialog;
     QString image_folder_path;
     QString anno_folder_path;
     int points_num;

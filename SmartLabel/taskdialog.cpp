@@ -155,11 +155,13 @@ void taskDialog::on_taskCancell_clicked()
 
 void taskDialog::on_taskConfirmed_clicked()
 {
+    QJsonObject anno_task;
     QString s_task = ui->text_anno_task->toPlainText();
     if (s_task.length() == 0) {
         QMessageBox::information(this, "info", "请添加标注任务名称!");
         return;
     }
+
     QString task_type = ui->TaskType_ComboBox->currentText();
      AnnoTool::AnnoType anno_type = AnnoTool::AnnoType::Points;
     if (task_type == "点") {
@@ -169,16 +171,17 @@ void taskDialog::on_taskConfirmed_clicked()
     } else if (task_type == "3D目标检测") {
          anno_type = AnnoTool::AnnoType::Segement;
     }
-    task_desc.anno_type = anno_type;
-    // emit 发送task_type信号出去
-    emit Send_anno_type(anno_type);
+    anno_task.insert("anno_type",QJsonValue(AnnoTool::WidgetUtils::ConvertJsonValue(anno_type)));
+    if (anno_type == AnnoTool::AnnoType::Points) {
+        anno_task.insert("points_num", QJsonValue(points_num));
+    }
     //emit 发送labels_list信号出去;
-    emit Send_task_data(task_desc);
+    emit Send_task_data(anno_task);
 
 }
 
 void taskDialog::receive_points_data(int& data) {
-    task_desc.points_num = data;
+    points_num = data;
 }
 
 void taskDialog::on_TaskType_ComboBox_activated(int index)

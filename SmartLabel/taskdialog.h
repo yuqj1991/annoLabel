@@ -42,9 +42,8 @@ private slots:
     void modify_attr();
 
 signals:
-void  Send_anno_type(const AnnoTool::AnnoType& anno_type);
 
-void Send_task_data(const AnnoTool::task_desc_& task);
+void Send_task_data(QJsonObject& task);
 
 void Send_labels_to_attr(QStringList& task);
 
@@ -55,8 +54,7 @@ private:
     QVBoxLayout grid_layout ;
     std::unique_ptr<QJsonObject> attr_set;
     QStringList get_labels(const QString& labels);
-    AnnoTool::task_desc_ task_desc;
-    std::vector<std::pair<QString, QStringList>> attri_labels_map_;
+    int points_num = 0;
     bool all_labels_attr = false;
     std::unique_ptr<QMenu> ocr_menu_;
     std::unique_ptr<QAction> modify_ocr_;

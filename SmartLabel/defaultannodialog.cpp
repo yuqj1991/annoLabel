@@ -18,6 +18,8 @@ DefaultAnnoDialog::DefaultAnnoDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     fileDialog = std::make_unique<QFileDialog>();
+    points_dialog = std::make_unique<PointDialog>();
+    connect(points_dialog.get(), SIGNAL(Send_points_data(int&)), this, SLOT(reveive_points_data(int&)));
 }
 
 DefaultAnnoDialog::~DefaultAnnoDialog()
@@ -34,13 +36,7 @@ bool DefaultAnnoDialog::get_task_data(QJsonObject &config_task) {
   }
   config_task.insert("project_name", QJsonValue(project_name));
 
-  // anno_type ComboBox
-  AnnoTool::AnnoType anno_type =
-      AnnoTool::WidgetUtils::getAnnoType(ui->annoType_comboBox->currentText());
-  config_task.insert("anno_type", QJsonValue(AnnoTool::WidgetUtils::ConvertJsonValue(anno_type)));
-  if (anno_type == AnnoTool::AnnoType::Points) {
-    config_task.insert("points_num", QJsonValue(points_num));
-  }
+
   // image_folder Textlabel
   QString fileDir_Path = ui->fileDir_textEdit->toPlainText();
   if (fileDir_Path.length() == 0) {
@@ -48,15 +44,6 @@ bool DefaultAnnoDialog::get_task_data(QJsonObject &config_task) {
     return false;
   }
   config_task.insert("image_folder", QJsonValue(fileDir_Path));
-  // annolabels Textlabel
-  QString str_labels = ui->labels_textEdit->toPlainText();
-  if (str_labels.length() == 0) {
-    QMessageBox::warning(this, tr("warning"), "请添加标注标签!");
-    return false;
-  }
-  QStringList project_labels = get_labels(str_labels);
-  config_task.insert("project_labels",
-                     QJsonValue(QJsonArray::fromStringList(project_labels)));
   // anno_file_folder anno_textlabel
   QString annoDir_path = ui->save_anno_textEdit->toPlainText();
   if (annoDir_path.length() == 0) {
@@ -64,6 +51,28 @@ bool DefaultAnnoDialog::get_task_data(QJsonObject &config_task) {
     return false;
   }
   config_task.insert("anno_folder", QJsonValue(annoDir_path));
+
+  // anno_task
+  QJsonArray anno_tasks;
+  QJsonObject anno;
+  // anno_type ComboBox
+  AnnoTool::AnnoType anno_type =
+      AnnoTool::WidgetUtils::getAnnoType(ui->annoType_comboBox->currentText());
+  anno.insert("anno_type", QJsonValue(AnnoTool::WidgetUtils::ConvertJsonValue(anno_type)));
+  if (anno_type == AnnoTool::AnnoType::Points) {
+    anno.insert("points_num", QJsonValue(points_num));
+  }
+  // annolabels Textlabel
+  QString str_labels = ui->labels_textEdit->toPlainText();
+  if (str_labels.length() == 0) {
+    QMessageBox::warning(this, tr("warning"), "请添加标注标签!");
+    return false;
+  }
+  QStringList project_labels = get_labels(str_labels);
+  anno.insert("project_labels",
+                     QJsonValue(QJsonArray::fromStringList(project_labels)));
+  anno_tasks.push_back(anno);
+  config_task.insert("anno_tasks", anno_tasks);
 
   return true;
 }
@@ -80,5 +89,17 @@ void DefaultAnnoDialog::on_open_anno_Button_clicked()
     anno_folder_path = QFileDialog::getExistingDirectory(
         this, "选择文件夹保存位置", "./", QFileDialog::ShowDirsOnly);
     ui->save_anno_textEdit->setText(anno_folder_path);
+}
+
+void DefaultAnnoDialog::reveive_points_data(int& point_num){
+    points_num = point_num;
+}
+
+void DefaultAnnoDialog::on_annoType_comboBox_activated(int index)
+{
+    if (ui->annoType_comboBox->currentText() == "点_points") {
+        points_dialog.get()->setModal(true);
+        points_dialog.get()->show();
+    }
 }
 

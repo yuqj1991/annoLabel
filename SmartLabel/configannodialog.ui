@@ -92,7 +92,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>添加</string>
+    <string>添加标注</string>
    </property>
   </widget>
   <widget class="QPushButton" name="open_fileDir_Button">
@@ -118,7 +118,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QPushButton" name="open_fileDir_Button_2">
+  <widget class="QPushButton" name="open_annoDir_Button">
    <property name="geometry">
     <rect>
      <x>430</x>

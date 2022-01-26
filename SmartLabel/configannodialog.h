@@ -33,12 +33,14 @@ private slots:
 
     void recive_task_dialog_data(QJsonObject json_object);
 
+
 private:
     Ui::ConfigAnnoDialog *ui;
     std::unique_ptr<taskDialog> task_dialog;
     QString image_Dir_path;
     QString anno_Dir_path;
     QJsonObject sub_task_object;
+    QJsonArray anno_tasks;
 };
 
 #endif // CONFIGANNODIALOG_H

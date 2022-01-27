@@ -8,6 +8,7 @@
 #include <memory>
 #include "taskdialog.h"
 #include<QFileDialog>
+#include<QStandardItemModel>
 
 namespace Ui {
 class ConfigAnnoDialog;
@@ -31,12 +32,13 @@ private slots:
 
     void on_open_annoDir_Button_clicked();
 
-    void recive_task_dialog_data(QJsonObject json_object);
+    void recive_task_dialog_data(QJsonObject& json_object);
 
 
 private:
     Ui::ConfigAnnoDialog *ui;
     std::unique_ptr<taskDialog> task_dialog;
+    std::unique_ptr<QStandardItemModel> stand_model;
     QString image_Dir_path;
     QString anno_Dir_path;
     QJsonObject sub_task_object;

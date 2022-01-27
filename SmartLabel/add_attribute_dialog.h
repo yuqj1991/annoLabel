@@ -4,7 +4,7 @@
 #include <QDialog>
 #include <QJsonObject>
 #include <memory>
-
+#include "wegits_common.h"
 
 namespace Ui {
 class AddAttributeDialog;
@@ -20,7 +20,7 @@ public:
     ~AddAttributeDialog();
 
 signals:
-    void SendData(QJsonObject* json_object);
+    void SendData(QJsonObject& json_object);
 
 private slots:
     void on_confirm_Button_clicked();
@@ -33,10 +33,12 @@ private slots:
 
 private:
     Ui::AddAttributeDialog *ui;
-    std::unique_ptr<QJsonObject> json_object;
+
     QStringList get_labels(const QString &labels);
 
     QStringList task_labels_;
+
+    void clear();
 };
 
 #endif // ADD_ATTRIBUTE_DIALOG_H

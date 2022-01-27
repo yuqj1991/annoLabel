@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QGridLayout>
 #include <memory>
+#include <QJsonArray>
 #include "add_attribute_dialog.h"
 #include "wegits_common.h"
 #include "point_dialog.h"
@@ -26,7 +27,7 @@ public:
 
 private slots:
     void on_add_attribute_clicked();
-    void receive_attribute_data(QJsonObject*  json_object);
+    void receive_attribute_data(QJsonObject&  json_object);
 
     void receive_points_data(int& data);
 
@@ -54,6 +55,8 @@ private:
     QVBoxLayout grid_layout ;
     std::unique_ptr<QJsonObject> attr_set;
     QStringList get_labels(const QString& labels);
+    std::vector<std::pair<QString, QStringList>> attri_labels_map_;
+    QJsonArray attri_object;
     int points_num = 0;
     bool all_labels_attr = false;
     std::unique_ptr<QMenu> ocr_menu_;
@@ -63,6 +66,7 @@ private:
     QLabel* menu_label_;
     bool use_menu_ = false;
     int label_index = -1;
+    void reset();
 };
 
 #endif // TASKDIALOG_H

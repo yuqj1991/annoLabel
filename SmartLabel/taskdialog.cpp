@@ -18,7 +18,8 @@ taskDialog::taskDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::taskDialog)
 {
-    ui->setupUi(this);
+     ui->setupUi(this);
+     setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowMinimizeButtonHint | Qt::WindowMaximizeButtonHint);
      attribute_dialog =std::make_unique<AddAttributeDialog>();
      ocr_menu_ = std::make_unique<QMenu>();
      modify_ocr_ = std::make_unique<QAction>("修改");
@@ -30,7 +31,7 @@ taskDialog::taskDialog(QWidget *parent) :
      connect(del_ocr_.get(), SIGNAL(triggered()), this, SLOT(del_attr()));
 
      attr_set =std::make_unique<QJsonObject>();
-     connect(attribute_dialog.get(),  SIGNAL(SendData(QJsonObject*)),  this,  SLOT(receive_attribute_data(QJsonObject*)));
+     connect(attribute_dialog.get(),  SIGNAL(SendData(QJsonObject&)),  this,  SLOT(receive_attribute_data(QJsonObject&)));
      point_dialog = std::make_unique<PointDialog>();
      connect(point_dialog.get(), SIGNAL(Send_points_data(int&)), this, SLOT(receive_points_data(int&)));
      connect(this, SIGNAL(Send_labels_to_attr(QStringList&)), attribute_dialog.get(), SLOT( recievd_labels_data(QStringList&)));
@@ -49,12 +50,16 @@ void taskDialog::del_attr() {
         auto last_parts = attr_descs[1].split("](subject to labels: ");
         auto del_attr = last_parts[0];
         attr_set->remove(del_attr);
+        int index = 0;
         for (auto it = attri_labels_map_.begin(); it  != attri_labels_map_.end(); ) {
             if (it->first == del_attr) {
                 it = attri_labels_map_.erase(it);
+                attri_object.removeAt(index);
+                break;
             } else {
                 it++;
             }
+            index++;
         }
         menu_label_->hide();
     }
@@ -68,8 +73,8 @@ void taskDialog::on_add_attribute_clicked()
         QMessageBox::information(this, "info", "请添加标签!");
         return;
     }
-    task_desc.anno_labels = get_labels(s_labels);
-    emit Send_labels_to_attr(task_desc.anno_labels);
+    auto anno_labels = get_labels(s_labels);
+    emit Send_labels_to_attr(anno_labels);
     attribute_dialog->setModal(true);
     attribute_dialog->show();
 }
@@ -97,10 +102,10 @@ void taskDialog::execu_menu(QPoint pos) {
 
 }
 
-void taskDialog::receive_attribute_data(QJsonObject* json_object)
+void taskDialog::receive_attribute_data(QJsonObject& json_object)
 {
     QString s_s("[sub_attr: ");
-    QString sub_task = json_object->value("sub_task").toString();
+    QString sub_task = json_object.value(AnnoTool::WidgetUtils::attr_name).toString();
     if (attr_set->contains(sub_task) && !use_menu_) {
         QMessageBox::warning(this, "warning", "the current attr has beed added! please add a new one again!");
         return;
@@ -109,7 +114,7 @@ void taskDialog::receive_attribute_data(QJsonObject* json_object)
     s_s += sub_task;
     s_s +="](subject to labels: ";
     QStringList labels_attr;
-    auto label_values = json_object->value("labels").toArray();
+    auto label_values = json_object.value(AnnoTool::WidgetUtils::attr_map_labels).toArray();
     if ( (label_values.count() == 1) &&(label_values.first().toString() == "all_labels")) {
          s_s += "all_labels.";
          labels_attr.append("all_labels");
@@ -122,14 +127,17 @@ void taskDialog::receive_attribute_data(QJsonObject* json_object)
         s_s += ".";
     }
      s_s += ")";
+     // add _item_labels
     if (use_menu_) {
         menu_label_->setText(s_s);
         if (label_index != -1) {
             attri_labels_map_[label_index] = std::pair<QString, QStringList>(sub_task, labels_attr);
+            attri_object[label_index] = json_object;
             label_index = -1;
         }
     } else {
         attri_labels_map_.push_back(std::pair<QString, QStringList>(sub_task, labels_attr));
+        attri_object.push_back(json_object);
         QLabel* attri_label = new QLabel();
         attri_label->setText(s_s);
         attri_label->setStyleSheet("QLabel{border:2px solid rgb(27, 23, 10);}");
@@ -149,6 +157,7 @@ void taskDialog::receive_attribute_data(QJsonObject* json_object)
 
 void taskDialog::on_taskCancell_clicked()
 {
+    reset();
     this->close();
 }
 
@@ -161,7 +170,7 @@ void taskDialog::on_taskConfirmed_clicked()
         QMessageBox::information(this, "info", "请添加标注任务名称!");
         return;
     }
-
+    anno_task.insert(AnnoTool::WidgetUtils::anno_name, s_task);
     QString task_type = ui->TaskType_ComboBox->currentText();
      AnnoTool::AnnoType anno_type = AnnoTool::AnnoType::Points;
     if (task_type == "点") {
@@ -171,13 +180,24 @@ void taskDialog::on_taskConfirmed_clicked()
     } else if (task_type == "3D目标检测") {
          anno_type = AnnoTool::AnnoType::Segement;
     }
-    anno_task.insert("anno_type",QJsonValue(AnnoTool::WidgetUtils::ConvertJsonValue(anno_type)));
+    anno_task.insert(AnnoTool::WidgetUtils::anno_type, QJsonValue(AnnoTool::WidgetUtils::ConvertJsonValue(anno_type)));
     if (anno_type == AnnoTool::AnnoType::Points) {
-        anno_task.insert("points_num", QJsonValue(points_num));
+        anno_task.insert(AnnoTool::WidgetUtils::anno_points, QJsonValue(points_num));
     }
-    //emit 发送labels_list信号出去;
-    emit Send_task_data(anno_task);
+    // anno_labels
+    QString s_labels = ui->text_labels->toPlainText();
+    if (s_labels.length() == 0) {
+        QMessageBox::information(this, "info", "请添加标签!");
+        return;
+    }
+    auto anno_labels = get_labels(s_labels);
+    anno_task.insert(AnnoTool::WidgetUtils::anno_labels, QJsonValue(QJsonArray::fromStringList(anno_labels)));
 
+    //emit 发送labels_list信号出去;
+    anno_task.insert(AnnoTool::WidgetUtils::anno_attr, attri_object);
+    emit Send_task_data(anno_task);
+    reset();
+    this->close();
 }
 
 void taskDialog::receive_points_data(int& data) {
@@ -192,3 +212,18 @@ void taskDialog::on_TaskType_ComboBox_activated(int index)
     }
 }
 
+
+void taskDialog::reset() {
+    ui->text_anno_task->setText("");
+    ui->TaskType_ComboBox->setCurrentIndex(0);
+    QList<QLabel*> widget_labels = ui->groupBox_attribute->findChildren<QLabel*>();
+    for (auto i = 0; i < widget_labels.size(); i++)
+    {
+        grid_layout.removeWidget(widget_labels[i]);
+        widget_labels[i]->hide();
+    }
+    ui->groupBox_attribute->setLayout(&grid_layout);
+    attri_labels_map_.clear();
+    QJsonArray().swap(attri_object);
+    ui->text_labels->setText("");
+}

@@ -34,7 +34,7 @@ bool DefaultAnnoDialog::get_task_data(QJsonObject &config_task) {
     QMessageBox::warning(this, tr("warning"), "请添加项目名称!");
     return false;
   }
-  config_task.insert("project_name", QJsonValue(project_name));
+  config_task.insert(AnnoTool::WidgetUtils::project_name, QJsonValue(project_name));
 
 
   // image_folder Textlabel
@@ -43,24 +43,27 @@ bool DefaultAnnoDialog::get_task_data(QJsonObject &config_task) {
     QMessageBox::warning(this, tr("warning"), "请添加图片文件夹目录!");
     return false;
   }
-  config_task.insert("image_folder", QJsonValue(fileDir_Path));
+  config_task.insert(AnnoTool::WidgetUtils::images_path, QJsonValue(fileDir_Path));
   // anno_file_folder anno_textlabel
   QString annoDir_path = ui->save_anno_textEdit->toPlainText();
   if (annoDir_path.length() == 0) {
     QMessageBox::warning(this, tr("warning"), "请添加图片文件夹目录!");
     return false;
   }
-  config_task.insert("anno_folder", QJsonValue(annoDir_path));
+  config_task.insert(AnnoTool::WidgetUtils::annos_path, QJsonValue(annoDir_path));
 
   // anno_task
   QJsonArray anno_tasks;
   QJsonObject anno;
+  // anno_name
+  anno.insert(AnnoTool::WidgetUtils::anno_name, "...");
   // anno_type ComboBox
   AnnoTool::AnnoType anno_type =
       AnnoTool::WidgetUtils::getAnnoType(ui->annoType_comboBox->currentText());
-  anno.insert("anno_type", QJsonValue(AnnoTool::WidgetUtils::ConvertJsonValue(anno_type)));
+
+  anno.insert(AnnoTool::WidgetUtils::anno_type, QJsonValue(AnnoTool::WidgetUtils::ConvertJsonValue(anno_type)));
   if (anno_type == AnnoTool::AnnoType::Points) {
-    anno.insert("points_num", QJsonValue(points_num));
+    anno.insert(AnnoTool::WidgetUtils::anno_points, QJsonValue(points_num));
   }
   // annolabels Textlabel
   QString str_labels = ui->labels_textEdit->toPlainText();
@@ -69,10 +72,11 @@ bool DefaultAnnoDialog::get_task_data(QJsonObject &config_task) {
     return false;
   }
   QStringList project_labels = get_labels(str_labels);
-  anno.insert("project_labels",
+  anno.insert(AnnoTool::WidgetUtils::anno_labels,
                      QJsonValue(QJsonArray::fromStringList(project_labels)));
   anno_tasks.push_back(anno);
-  config_task.insert("anno_tasks", anno_tasks);
+  config_task.insert(AnnoTool::WidgetUtils::anno_tasks, anno_tasks);
+  config_task.insert(AnnoTool::WidgetUtils::is_defaulted, QJsonValue(false));
 
   return true;
 }

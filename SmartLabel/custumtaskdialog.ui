@@ -45,7 +45,7 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>410</y>
+      <y>360</y>
       <width>111</width>
       <height>41</height>
      </rect>
@@ -92,13 +92,26 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>560</y>
+      <y>540</y>
       <width>101</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>返回</string>
+     <string>确认</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="cancell_Button">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>588</y>
+      <width>101</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>取消</string>
     </property>
    </widget>
   </widget>

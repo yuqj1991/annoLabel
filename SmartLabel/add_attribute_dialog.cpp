@@ -15,8 +15,8 @@ AddAttributeDialog::AddAttributeDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AddAttributeDialog)
 {
-     json_object = std::make_unique<QJsonObject>();
     ui->setupUi(this);
+    setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowMinimizeButtonHint | Qt::WindowMaximizeButtonHint);
     ui->attribute_default_value->setReadOnly(true);
 }
 
@@ -48,17 +48,19 @@ void AddAttributeDialog::on_confirm_Button_clicked()
           }
       }
     }
-
-    json_object->insert("sub_task", QJsonValue(attribute_by_task));
-    json_object->insert("labels", QJsonValue(QJsonArray::fromStringList(default_values)));
+    QJsonObject json_object;
+    json_object.insert(AnnoTool::WidgetUtils::attr_name, QJsonValue(attribute_by_task));
+    json_object.insert(AnnoTool::WidgetUtils::attr_map_labels, QJsonValue(QJsonArray::fromStringList(default_values)));
+    emit SendData(json_object);
+    clear();
     this->close();
-    emit SendData(json_object.get());
 
 }
 
 
 void AddAttributeDialog::on_cancel_Button_clicked()
 {
+    clear();
     this->close();
 }
 
@@ -72,3 +74,9 @@ void AddAttributeDialog::on_attri_type_activated(int index)
     }
 }
 
+
+void AddAttributeDialog::clear() {
+    ui->attribute_text->setText("");
+    ui->attribute_default_value->setText("");
+    ui->attribute_default_value->setReadOnly(true);
+}

@@ -1,6 +1,7 @@
 #include "configannodialog.h"
 #include "ui_configannodialog.h"
 #include <QMessageBox>
+#include <QAbstractItemView>
 
 ConfigAnnoDialog::ConfigAnnoDialog(QWidget *parent) :
     QDialog(parent),
@@ -8,8 +9,11 @@ ConfigAnnoDialog::ConfigAnnoDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     task_dialog = std::make_unique<taskDialog>();
+    stand_model = std::make_unique<QStandardItemModel>();
+    ui->task_listView->setModel(stand_model.get());
     ui->task_listView->setFrameShape(QFrame::NoFrame);
-    connect(task_dialog.get(), SIGNAL(Send_task_data(QJsonObject)), this, SLOT(recive_task_dialog_data(QJsonObject)));
+    ui->task_listView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    connect(task_dialog.get(), SIGNAL(Send_task_data(QJsonObject&)), this, SLOT(recive_task_dialog_data(QJsonObject&)));
 }
 
 ConfigAnnoDialog::~ConfigAnnoDialog()
@@ -70,6 +74,9 @@ void ConfigAnnoDialog::on_open_annoDir_Button_clicked()
 }
 
 
-void ConfigAnnoDialog::recive_task_dialog_data(QJsonObject json_object) {
+void ConfigAnnoDialog::recive_task_dialog_data(QJsonObject& json_object) {
    anno_tasks.push_back(json_object);
+   QStandardItem *item = new QStandardItem(AnnoTool::WidgetUtils::ConvertToQStringFromJsonObject(json_object));
+
+   stand_model->appendRow(item);
 }

@@ -7,6 +7,8 @@
 #include <QObject>
 #include <QStringList>
 #include <QJsonValue>
+#include <QJsonObject>
+#include <QDebug>
 
 namespace AnnoTool {
 
@@ -83,6 +85,44 @@ public:
       }
     }
 
+    static QString ConvertToQStringFromJsonObject(QJsonObject json_object) {
+        QString result;
+
+        auto keys = json_object.keys();
+        for (auto i = 0; i < keys.size(); i++){
+            result += keys[i];
+            result += ": ";
+            if (json_object.value(keys[i]).isObject()) {
+                QString obj_result;
+                QDebug str_stream(&obj_result);
+                str_stream << json_object.value(keys[i]);
+                result += obj_result.remove("QJsonValue(array, QJsonArray(").remove("))");
+            } else if (json_object.value(keys[i]).isArray()){
+                QString array_result;
+                QDebug str_stream(&array_result);
+                str_stream << json_object.value(keys[i]);
+                result += array_result.remove("QJsonValue(array, QJsonArray(").remove("))");
+            } else {
+                result += json_object.value(keys[i]).toString();
+            }
+
+            result += ";\n";
+        }
+        return result;
+    }
+
+    static QString project_name;
+    static QString images_path;
+    static QString annos_path;
+    static QString is_defaulted;
+    static QString anno_name;
+    static QString anno_type;
+    static QString anno_points;
+    static QString anno_attr;
+    static QString anno_labels;
+    static QString attr_name;
+    static QString attr_map_labels;
+    static QString anno_tasks;
 };
 }
 

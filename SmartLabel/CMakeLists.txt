@@ -41,7 +41,8 @@ set(PROJECT_SOURCES
     taskdialog.cpp
     add_attribute_dialog.cpp
     firstpagedialog.cpp
-    point_dialog.cpp)
+    point_dialog.cpp
+    wegits_common.cpp)
 
 
 set(PROJECT_HEADERS

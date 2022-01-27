@@ -52,7 +52,7 @@ class WidgetUtils : public QObject {
     Q_OBJECT
 public:
    static  AnnoType getAnnoType(const QString &name) {
-      if (name == "点_points") {
+      if (name == "多边形_points") {
         return AnnoType::Points;
       } else if (name == "分类_classifiy") {
         return AnnoType::Classifiy;
@@ -70,7 +70,7 @@ public:
 
     static QString ConvertJsonValue(const AnnoType &name) {
       if (name == AnnoType::Points) {
-        return "点_points";
+        return "多边形_points";
       } else if (name == AnnoType::Classifiy) {
         return "分类_classifiy";
       } else if (name == AnnoType::Rectangle) {

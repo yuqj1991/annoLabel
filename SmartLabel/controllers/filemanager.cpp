@@ -51,6 +51,7 @@ void FileManager::saveJson(QJsonObject json, QString fileName)
     }else{
         file.write(document.toJson());
         file.close();
+        QMessageBox::information(nullptr, "File saved successed", fileName+": has been saved");
     }
 }
 

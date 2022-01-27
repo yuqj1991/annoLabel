@@ -29,8 +29,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1003</width>
-         <height>881</height>
+         <width>1016</width>
+         <height>904</height>
         </rect>
        </property>
       </widget>
@@ -44,13 +44,15 @@
      <x>0</x>
      <y>0</y>
      <width>1311</width>
-     <height>25</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_file">
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="actionOpen_File"/>
+    <addaction name="actionOpen_Dir"/>
     <addaction name="actionLoad"/>
     <addaction name="actionClose"/>
     <addaction name="separator"/>
@@ -91,14 +93,15 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="separator"/>
-   <addaction name="separator"/>
+   <addaction name="actionOpen_File"/>
+   <addaction name="actionOpen_Dir"/>
    <addaction name="actionLoad"/>
    <addaction name="actionSave"/>
    <addaction name="actionSave_As"/>
    <addaction name="actionAuto_Save"/>
    <addaction name="actionClose"/>
    <addaction name="actionExit"/>
+   <addaction name="separator"/>
    <addaction name="actionUndo"/>
    <addaction name="actionRedo"/>
    <addaction name="actionPrevious_Image"/>
@@ -110,6 +113,39 @@
    <addaction name="actionAbout"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QDockWidget" name="annotationDockWidget">
+   <property name="windowTitle">
+    <string>Annotation List</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_anno">
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="CustomListWidget" name="annoListWidget"/>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <widget class="QPushButton" name="pushButton_moveUp">
+         <property name="text">
+          <string>Move Up</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_moveDown">
+         <property name="text">
+          <string>Move Down</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+  </widget>
   <widget class="QDockWidget" name="labelDockWidget">
    <property name="windowTitle">
     <string>Label List</string>
@@ -121,6 +157,20 @@
     <layout class="QVBoxLayout" name="verticalLayout_3">
      <item>
       <widget class="CustomListWidget" name="labelListWidget"/>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QLineEdit" name="lineEdit_addLabel"/>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_addLabel">
+         <property name="text">
+          <string>Add</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
    </widget>
